@@ -1,8 +1,42 @@
-<!document html>
-<html>
-<head>
-</head>
-<body>
-	It Works!
-</body>
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>PayJp Sample</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <script>
+      function hoge(e) {
+        console.log(e)
+        alert(e)
+        $.ajax({
+          url: 'https://api.pay.jp/v1/customers?card=' + e.id,
+          method: 'GET',
+          username: 'sk_test_a46f7d47d4e12e5233951478',
+
+        }).done( function( data ) {
+          if ( console && console.log ) {
+            console.log( "Sample of data:", data.slice( 0, 100 ) );
+          }
+        }).fail( function( data ) {
+          if ( console && console.log ) {
+            console.log( data );
+          }
+        }).always(function() {
+          alert('終わり')
+        })
+      }
+    </script>
+  </head>
+  <body>
+
+      
+      <form action="/pay" method="post">
+        <script src="https://checkout.pay.jp/" class="payjp-button" data-key="pk_test_0105e6a3fb2bfda6e0135957" data-partial="true" data-token-name="payjp-token" data-on-created="hoge"></script>
+      </form>
+      
+  </body>
 </html>
