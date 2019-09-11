@@ -10,10 +10,7 @@
       crossorigin="anonymous"></script>
     <script>
       function a(e) {
-        var headers = new Headers();
-        headers.append('Content-Type', 'text/plain');
         fetch('https://script.google.com/macros/s/AKfycbxFMBwkC8NzMO52GPETquO82HkNgTaeZ0_dl3dDzDd4kl7bnQ/exec?card=' + e.id, {
-          headers: headers,
           mode: "cors"
         })
           .then(function(response) {
