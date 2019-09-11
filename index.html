@@ -14,7 +14,7 @@
         headers.append('Content-Type', 'text/json');
         fetch('https://script.google.com/macros/s/AKfycbxFMBwkC8NzMO52GPETquO82HkNgTaeZ0_dl3dDzDd4kl7bnQ/exec?card=' + e.id, {
           headers: headers,
-//          mode: "no-cors"
+          mode: "cors"
         })
           .then(function(response) {
             console.log(JSON.stringify('こっち？'));
