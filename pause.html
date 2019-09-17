@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>PayJp Pause Sample</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script>
+      function a(e) {
+        fetch('https://script.google.com/macros/s/AKfycbxFMBwkC8NzMO52GPETquO82HkNgTaeZ0_dl3dDzDd4kl7bnQ/exec?func=stop&card=' + e.id + '&fingerprint=' + e.card.fingerprint)
+        .then(function(res) {
+          if (res) {
+            res.body.getReader().read().then(({done, value}) => {
+              const resBody = JSON.parse(decoder.decode(value));
+              if (resBody.code === '200') {
+                alert('決済を停止しました！');
+              } else {
+                alert('決済の停止に失敗しました. 詳細:' + resBody.message);
+              }
+            })
+          }
+        })
+        .then(function(err) {
+          if (err) {
+            alert('予期せぬエラーで決済の停止に失敗しました.');
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <form action="/pay" method="post">
+      <script src="https://checkout.pay.jp/" 
+              class="payjp-button" 
+              data-key="pk_test_0105e6a3fb2bfda6e0135957" 
+              data-partial="true" 
+              data-token-name="payjp-token" 
+              data-on-created="a"></script>
+    </form>
+  </body>
+</html>
