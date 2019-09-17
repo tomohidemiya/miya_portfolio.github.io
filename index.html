@@ -4,37 +4,40 @@
     <meta charset="utf-8">
     <title>PayJp Sample</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-      crossorigin="anonymous"></script>
     <script>
       function a(e) {
-        fetch('https://script.google.com/macros/s/AKfycbxFMBwkC8NzMO52GPETquO82HkNgTaeZ0_dl3dDzDd4kl7bnQ/exec?card=' + e.id, {
-          mode: "cors"
+        const decoder = new TextDecoder();
+
+        console.log(e)
+        fetch('https://script.google.com/macros/s/AKfycbxFMBwkC8NzMO52GPETquO82HkNgTaeZ0_dl3dDzDd4kl7bnQ/exec?func=subscribe&card=' + e.id + '&fingerprint=' + e.card.fingerprint)
+        .then(function(res) {
+          if (res) {
+            res.body.getReader().read().then(({done, value}) => {
+              const resBody = JSON.parse(decoder.decode(value));
+              if (resBody.code === '200') {
+                alert('決済が完了しました！');
+              } else {
+                alert('決済に失敗しました. 詳細:' + resBody.message);
+              }
+            })
+          }
         })
-          .then(function(response) {
-            console.log(JSON.stringify('こっち？'));
-            console.log(JSON.stringify(response));
-          })
-          .then(function(myJson) {
-            console.log(JSON.stringify('あっち？'));
-            console.log(JSON.stringify(myJson));
-          });
+        .then(function(err) {
+          if (err) {
+            alert('予期せぬエラーで決済に失敗しました.');
+          }
+        });
       }
     </script>
   </head>
   <body>
-
-      
-      <form action="/pay" method="post">
-        <script src="https://checkout.pay.jp/" 
-                class="payjp-button" 
-                data-key="pk_test_0105e6a3fb2bfda6e0135957" 
-                data-partial="true" 
-                data-token-name="payjp-token" 
-                data-on-created="a"></script>
-      </form>
-      
+    <form action="/pay" method="post">
+      <script src="https://checkout.pay.jp/" 
+              class="payjp-button" 
+              data-key="pk_test_0105e6a3fb2bfda6e0135957" 
+              data-partial="true" 
+              data-token-name="payjp-token" 
+              data-on-created="a"></script>
+    </form>
   </body>
 </html>
