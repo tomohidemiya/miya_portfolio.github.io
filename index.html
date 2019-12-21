@@ -12,7 +12,7 @@
         fetch('https://script.google.com/macros/s/AKfycbxFMBwkC8NzMO52GPETquO82HkNgTaeZ0_dl3dDzDd4kl7bnQ/exec?func=subscribe&card=' + e.id + '&fingerprint=' + e.card.fingerprint)
         .then(function(res) {
           if (res) {
-            res.body.getReader().read().then(({done, value}) => {
+            res.body.getReader().read().then(function ({done, value}) {
               const resBody = JSON.parse(decoder.decode(value));
               if (resBody.code === '200') {
                 alert('決済が完了しました！');
