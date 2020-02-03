@@ -5,7 +5,21 @@
     <title>PayJp Pause Sample</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <script>
+      var TextDecoderTmp = window.TextDecoder;
+      window.TextDecoder = null;
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/text-encoding@0.6.4/lib/encoding-indexes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/text-encoding@0.6.4/lib/encoding.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.3.1/es6-promise.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.min.js"></script>
+    <script>
       function a(e) {
+          var decoder;
+          if (!TextDecoderTmp) {
+              decoder = new TextDecoderTmp();
+          } else {
+              decoder = new TextDecoder();
+        }
         fetch('https://script.google.com/macros/s/AKfycbxFMBwkC8NzMO52GPETquO82HkNgTaeZ0_dl3dDzDd4kl7bnQ/exec?func=stop&card=' + e.id + '&fingerprint=' + e.card.fingerprint)
         .then(function(res) {
           if (res) {
