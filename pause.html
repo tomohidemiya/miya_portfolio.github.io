@@ -10,7 +10,7 @@
         .then(function(res) {
           if (res) {
             res.body.getReader().read().then(function ({done, value}) {
-              const resBody = JSON.parse(decoder.decode(value));
+              var resBody = JSON.parse(decoder.decode(value));
               if (resBody.code === '200') {
                 alert('決済を停止しました！');
               } else {
