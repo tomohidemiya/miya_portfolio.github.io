@@ -5,28 +5,39 @@
     <title>PayJp Sample</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <script>
-      function a(e) {
-        const decoder = new TextDecoder();
-        console.log(e)
-        fetch('https://script.google.com/macros/s/AKfycbxFMBwkC8NzMO52GPETquO82HkNgTaeZ0_dl3dDzDd4kl7bnQ/exec?func=digital&card=' + e.id + '&fingerprint=' + e.card.fingerprint)
-        .then(function(res) {
-          if (res) {
-            res.body.getReader().read().then(function ({done, value}) {
-              const resBody = JSON.parse(decoder.decode(value));
-              if (resBody.code === '200') {
-                alert('決済が完了しました！');
-              } else {
-                alert('決済に失敗しました. 詳細:' + resBody.message);
-              }
+        var TextDecoderTmp = window.TextDecoder;
+        window.TextDecoder = null;
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/text-encoding@0.6.4/lib/encoding-indexes.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/text-encoding@0.6.4/lib/encoding.js"></script>
+      <script>
+        function a(e) {  
+            var decoder;
+            if (!TextDecoderTmp) {
+                decoder = new TextDecoderTmp();
+            } else {
+                decoder = new TextDecoder();
+            }
+            console.log(e)
+            fetch('https://script.google.com/macros/s/AKfycbxFMBwkC8NzMO52GPETquO82HkNgTaeZ0_dl3dDzDd4kl7bnQ/exec?func=digital&card=' + e.id + '&fingerprint=' + e.card.fingerprint)
+            .then(function(res) {
+            if (res) {
+                res.body.getReader().read().then(function ({done, value}) {
+                var resBody = JSON.parse(decoder.decode(value));
+                if (resBody.code === '200') {
+                    alert('決済が完了しました！');
+                } else {
+                    alert('決済に失敗しました. 詳細:' + resBody.message);
+                }
+                })
+            }
             })
-          }
-        })
-        .then(function(err) {
-          if (err) {
-            alert('予期せぬエラーで決済に失敗しました.');
-          }
-        });
-      }
+            .then(function(err) {
+            if (err) {
+                alert('予期せぬエラーで決済に失敗しました.');
+            }
+            });
+        }
     </script>
   </head>
   <body>
